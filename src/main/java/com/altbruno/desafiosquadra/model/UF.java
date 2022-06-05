@@ -14,6 +14,7 @@ public class UF implements Comparable<UF> {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence_id_uf")
 	@SequenceGenerator(name = "sequence_id_uf", allocationSize = 1, sequenceName = "sequence_uf")
+	@Column(name = "codigo_uf")
 	private Integer codigoUF;
 
 	@Column(length = 60, nullable = false, unique = true)

@@ -18,18 +18,26 @@ public class UFService {
 	@Autowired
 	private UFRepository ufRepository;
 
-	public void validaNomeSiglaStatus(UF uf) {
-		String nome = uf.getNome().toUpperCase();
-		String sigla = uf.getSigla().toUpperCase();
-		if (ufRepository.existsByNome(nome)) throw new NegocioException(String.format("Já existe um estado com o nome %s. Você não pode cadastrar dois estados com o mesmo nome.", nome));
-		if (ufRepository.existsBySigla(sigla)) throw new NegocioException(String.format("Já existe um estado com a sigla %s. Você não pode cadastrar dois estados com a mesma sigla.", sigla));
-		if (uf.getStatus() != 1 && uf.getStatus() != 2) throw new NegocioException("Status inválido. O status deve ser 1 ou 2");
+	public void validaNomeCadastrado(String nome) {
+		if (ufRepository.existsByNome(nome)) throw new NegocioException(String.format("Já existe um estado com o nome %s. Você não pode cadastrar dois estados com o mesmo nome.", nome.toUpperCase()));
+	}
+
+	public void validaSiglaCadastrada(String sigla) {
+		if (ufRepository.existsBySigla(sigla)) throw new NegocioException(String.format("Já existe um estado com a sigla %s. Você não pode cadastrar dois estados com a mesma sigla.", sigla.toUpperCase()));
+	}
+
+	public void validaStatus(Integer status) {
+		if (status != 1 && status != 2) throw new NegocioException("Status inválido. O status deve ser 1 ou 2");
 	}
 
 	public List<UF> salvar(UF uf){
-		validaNomeSiglaStatus(uf);
-		uf.setNome(uf.getNome().toUpperCase());
-		uf.setSigla(uf.getSigla().toUpperCase());
+		String nome = uf.getNome().toUpperCase();
+		String sigla = uf.getSigla().toUpperCase();
+		validaNomeCadastrado(nome);
+		validaSiglaCadastrada(sigla);
+		validaStatus(uf.getStatus());
+		uf.setNome(nome);
+		uf.setSigla(sigla);
 		ufRepository.save(uf);
 		return listar();
 	}
@@ -50,11 +58,20 @@ public class UFService {
 	}
 
 	public List<UF> atualizar(UF uf) {
+
 		UF ufJaCadastradaNoBanco = buscarPorCodigoUF(uf.getCodigoUF());
-		validaNomeSiglaStatus(uf);
-		ufJaCadastradaNoBanco.setNome(uf.getNome().toUpperCase());
-		ufJaCadastradaNoBanco.setSigla(uf.getSigla().toUpperCase());
-		ufJaCadastradaNoBanco.setStatus(uf.getStatus());
+
+		String nome = uf.getNome().toUpperCase();
+		String sigla = uf.getSigla().toUpperCase();
+		Integer status = uf.getStatus();
+
+		if (!nome.equalsIgnoreCase(ufJaCadastradaNoBanco.getNome())) validaNomeCadastrado(nome);
+		if (!sigla.equalsIgnoreCase(uf.getSigla())) validaSiglaCadastrada(sigla);
+		validaStatus(status);
+
+		ufJaCadastradaNoBanco.setNome(nome);
+		ufJaCadastradaNoBanco.setSigla(sigla);
+		ufJaCadastradaNoBanco.setStatus(status);
 		ufRepository.save(ufJaCadastradaNoBanco);
 		return listar();
 	}
