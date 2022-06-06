@@ -19,11 +19,11 @@ public class UFService {
 	private UFRepository ufRepository;
 
 	public void validaNomeCadastrado(String nome) {
-		if (ufRepository.existsByNome(nome)) throw new NegocioException(String.format("Já existe um estado com o nome %s. Você não pode cadastrar dois estados com o mesmo nome.", nome.toUpperCase()));
+		if (ufRepository.existsByNome(nome)) throw new NegocioException(String.format("Já existe um estado com o nome %s. Você não pode cadastrar dois estados com o mesmo nome.", nome));
 	}
 
 	public void validaSiglaCadastrada(String sigla) {
-		if (ufRepository.existsBySigla(sigla)) throw new NegocioException(String.format("Já existe um estado com a sigla %s. Você não pode cadastrar dois estados com a mesma sigla.", sigla.toUpperCase()));
+		if (ufRepository.existsBySigla(sigla)) throw new NegocioException(String.format("Já existe um estado com a sigla %s. Você não pode cadastrar dois estados com a mesma sigla.", sigla));
 	}
 
 	public void validaStatus(Integer status) {
