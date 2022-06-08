@@ -44,7 +44,7 @@ public class MunicipioController {
 	}
 
 	@DeleteMapping("/{codigoMunicipio}")
-	public ResponseEntity<List<MunicipioDtoGet>> inativarPeloCodigoUF(@PathVariable Integer codigoMunicipio) {
+	public ResponseEntity<List<MunicipioDtoGet>> inativarPeloCodigoMunicipio(@PathVariable Integer codigoMunicipio) {
 		return ResponseEntity.status(HttpStatus.OK).body(municipioService.inativar(codigoMunicipio));
 	}
 }

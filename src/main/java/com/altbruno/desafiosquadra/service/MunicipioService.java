@@ -37,7 +37,7 @@ public class MunicipioService {
 	}
 
 	public void validaNomePorUF(String nome, UF uf) {
-		if (municipioRepository.existsByNomeAndUf(nome, uf)) throw new NegocioException(String.format("Já existe um município com o nome %s cadastrado e codigoUF %s. Você não pode cadastrar dois municípios com o mesmo nome para o mesmo Código de UF.", nome, uf.getCodigoUF()));
+		if (municipioRepository.existsByNomeAndUf(nome, uf)) throw new NegocioException(String.format("Já existe um município cadastrado com o nome %s e codigoUF %s. Você não pode cadastrar dois municípios com o mesmo nome para o mesmo Código de UF.", nome, uf.getCodigoUF()));
 	}
 
 	public void validaStatus(Integer status) {
