@@ -18,33 +18,19 @@ public class UFService {
 	@Autowired
 	private UFRepository ufRepository;
 
-	public void validaNomeCadastrado(String nome) {
-		if (ufRepository.existsByNome(nome)) throw new NegocioException(String.format("Já existe um estado com o nome %s. Você não pode cadastrar dois estados com o mesmo nome.", nome));
-	}
-
-	public void validaSiglaCadastrada(String sigla) {
-		if (ufRepository.existsBySigla(sigla)) throw new NegocioException(String.format("Já existe um estado com a sigla %s. Você não pode cadastrar dois estados com a mesma sigla.", sigla));
-	}
-
-	public void validaStatus(Integer status) {
-		if (status != 1 && status != 2) throw new NegocioException("Status inválido. O status deve ser 1 ou 2");
-	}
-
-	public List<UF> salvar(UF uf){
-		String nome = uf.getNome().toUpperCase();
-		String sigla = uf.getSigla().toUpperCase();
+	public List<UF> salvar(com.altbruno.desafiosquadra.dto.post.UF ufDTO){
+		String nome = ufDTO.getNome().toUpperCase();
+		String sigla = ufDTO.getSigla().toUpperCase();
+		Integer status = ufDTO.getStatus();
 		validaNomeCadastrado(nome);
 		validaSiglaCadastrada(sigla);
-		validaStatus(uf.getStatus());
+		validaStatus(status);
+		UF uf = new UF();
 		uf.setNome(nome);
 		uf.setSigla(sigla);
+		uf.setStatus(status);
 		ufRepository.save(uf);
 		return listar();
-	}
-
-	public UF buscarPorCodigoUF(Integer codigoUF) {
-		return ufRepository.findByCodigoUF(codigoUF).orElseThrow(
-				() -> new EntityNotFoundException("Código UF não encontrado: " + codigoUF));
 	}
 
 	public List<UF> listar(Example<UF> example) {
@@ -65,8 +51,10 @@ public class UFService {
 		String sigla = uf.getSigla().toUpperCase();
 		Integer status = uf.getStatus();
 
-		if (!nome.equalsIgnoreCase(ufJaCadastradaNoBanco.getNome())) validaNomeCadastrado(nome);
-		if (!sigla.equalsIgnoreCase(uf.getSigla())) validaSiglaCadastrada(sigla);
+		if (!nome.equalsIgnoreCase(ufJaCadastradaNoBanco.getNome()))
+			validaNomeCadastrado(nome);
+		if (!sigla.equalsIgnoreCase(uf.getSigla()))
+			validaSiglaCadastrada(sigla);
 		validaStatus(status);
 
 		ufJaCadastradaNoBanco.setNome(nome);
@@ -80,5 +68,22 @@ public class UFService {
 		uf.setStatus(Status.INATIVO.getId());
 		ufRepository.save(uf);
 		return listar();
+	}
+
+	public UF buscarPorCodigoUF(Integer codigoUF) {
+		return ufRepository.findByCodigoUF(codigoUF).orElseThrow(
+				() -> new EntityNotFoundException("Código UF não encontrado: " + codigoUF));
+	}
+
+	public void validaNomeCadastrado(String nome) {
+		if (ufRepository.existsByNome(nome)) throw new NegocioException(String.format("Já existe um estado com o nome %s. Você não pode cadastrar dois estados com o mesmo nome.", nome));
+	}
+
+	public void validaSiglaCadastrada(String sigla) {
+		if (ufRepository.existsBySigla(sigla)) throw new NegocioException(String.format("Já existe um estado com a sigla %s. Você não pode cadastrar dois estados com a mesma sigla.", sigla));
+	}
+
+	public void validaStatus(Integer status) {
+		if (status != 1 && status != 2) throw new NegocioException("Status inválido. O status deve ser 1 ou 2");
 	}
 }

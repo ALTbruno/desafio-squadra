@@ -21,18 +21,23 @@ public class UFController {
 	private UFService ufService;
 
 	@PostMapping
-	public ResponseEntity<List<UF>> salvarUF(@Valid @RequestBody UF uf) {
-		return ResponseEntity.status(HttpStatus.OK).body(ufService.salvar(uf));
+	public ResponseEntity<List<UF>> salvarUF(@Valid @RequestBody com.altbruno.desafiosquadra.dto.post.UF ufDTO) {
+		return ResponseEntity.status(HttpStatus.OK).body(ufService.salvar(ufDTO));
 	}
 
 	@GetMapping
-	public ResponseEntity<List<UF>> listar(UF uf) {
+	public ResponseEntity<?> listar(UF uf) {
 		ExampleMatcher matcher = ExampleMatcher
 										.matching()
 										.withIgnoreCase()
 										.withStringMatcher(ExampleMatcher.StringMatcher.EXACT);
 		Example<UF> example = Example.of(uf, matcher);
-		return ResponseEntity.status(HttpStatus.OK).body(ufService.listar(example));
+
+		List<UF> resultadoBusca = ufService.listar(example);
+
+		if ((uf.getCodigoUF() != null || uf.getNome() != null || uf.getSigla() != null) && resultadoBusca.size() > 0)
+			return ResponseEntity.status(HttpStatus.OK).body(resultadoBusca.get(0));
+		return ResponseEntity.status(HttpStatus.OK).body(resultadoBusca);
 	}
 
 	@PutMapping
