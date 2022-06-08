@@ -1,7 +1,7 @@
 package com.altbruno.desafiosquadra.controller;
 
-import com.altbruno.desafiosquadra.dto.BairroDtoGet;
-import com.altbruno.desafiosquadra.dto.BairroDtoPost;
+import com.altbruno.desafiosquadra.dto.get.BairroDtoGet;
+import com.altbruno.desafiosquadra.dto.post.BairroDtoPost;
 import com.altbruno.desafiosquadra.service.BairroService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
@@ -27,13 +27,17 @@ public class BairroController {
 	}
 
 	@GetMapping
-	ResponseEntity<List<BairroDtoGet>> listar(BairroDtoGet bairroDtoGet) {
+	ResponseEntity<?> listar(BairroDtoGet bairroDtoGet) {
 		ExampleMatcher matcher = ExampleMatcher
 										.matching()
 										.withIgnoreCase()
 										.withStringMatcher(ExampleMatcher.StringMatcher.EXACT);
 		Example<BairroDtoGet> example = Example.of(bairroDtoGet, matcher);
-		return ResponseEntity.status(HttpStatus.OK).body(bairroService.listar(example));
+
+		List<BairroDtoGet> resultadoBusca = bairroService.listar(example);
+		if (bairroDtoGet.getCodigoBairro() != null && resultadoBusca.size() > 0)
+			return ResponseEntity.status(HttpStatus.OK).body(resultadoBusca.get(0));
+		return ResponseEntity.status(HttpStatus.OK).body(resultadoBusca);
 	}
 
 	@PutMapping

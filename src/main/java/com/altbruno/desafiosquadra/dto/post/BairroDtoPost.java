@@ -1,16 +1,24 @@
-package com.altbruno.desafiosquadra.dto;
+package com.altbruno.desafiosquadra.dto.post;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 public class BairroDtoPost {
 
+	@NotNull
+	private Integer codigoMunicipio;
 	@NotBlank
 	private String nome;
 	@NotNull
 	private Integer status;
-	@NotNull
-	private Integer codigoMunicipio;
+
+	public Integer getCodigoMunicipio() {
+		return codigoMunicipio;
+	}
+
+	public void setCodigoMunicipio(Integer codigoMunicipio) {
+		this.codigoMunicipio = codigoMunicipio;
+	}
 
 	public String getNome() {
 		return nome;
@@ -26,13 +34,5 @@ public class BairroDtoPost {
 
 	public void setStatus(Integer status) {
 		this.status = status;
-	}
-
-	public Integer getCodigoMunicipio() {
-		return codigoMunicipio;
-	}
-
-	public void setCodigoMunicipio(Integer codigoMunicipio) {
-		this.codigoMunicipio = codigoMunicipio;
 	}
 }

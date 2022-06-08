@@ -1,8 +1,7 @@
 package com.altbruno.desafiosquadra.service;
 
-import com.altbruno.desafiosquadra.dto.BairroDtoGet;
-import com.altbruno.desafiosquadra.dto.BairroDtoPost;
-import com.altbruno.desafiosquadra.dto.MunicipioDtoGet;
+import com.altbruno.desafiosquadra.dto.get.BairroDtoGet;
+import com.altbruno.desafiosquadra.dto.post.BairroDtoPost;
 import com.altbruno.desafiosquadra.exception.NegocioException;
 import com.altbruno.desafiosquadra.model.Bairro;
 import com.altbruno.desafiosquadra.model.Municipio;
@@ -14,6 +13,7 @@ import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -55,7 +55,12 @@ public class BairroService {
 		bairro.setCodigoBairro(bairroDtoGet.getCodigoBairro());
 		bairro.setNome(bairroDtoGet.getNome());
 		bairro.setStatus(bairroDtoGet.getStatus());
-		if (bairroDtoGet.getCodigoMunicipio() != null) bairro.setMunicipio(buscarPorCodigoMunicipio(bairroDtoGet.getCodigoMunicipio()));
+		Boolean codigoMunicipioValido = municipioRepository.existsByCodigoMunicipio(bairroDtoGet.getCodigoMunicipio());
+		if (bairroDtoGet.getCodigoMunicipio() != null && codigoMunicipioValido) bairro.setMunicipio(buscarPorCodigoMunicipio(bairroDtoGet.getCodigoMunicipio()));
+
+		if (bairroDtoGet.getCodigoMunicipio() != null && !codigoMunicipioValido) {
+			return new ArrayList<>();
+		}
 
 		Example<Bairro> bairroExample = Example.of(bairro, example.getMatcher());
 		List<Bairro> bairros = bairroRepository.findAll(bairroExample);

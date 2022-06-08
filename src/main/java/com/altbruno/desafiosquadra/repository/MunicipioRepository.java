@@ -13,5 +13,6 @@ public interface MunicipioRepository extends JpaRepository<Municipio, Integer> {
 
 	List<Municipio> findAllByOrderByCodigoMunicipioDesc();
 	Boolean existsByNomeAndUf(String nome, UF uf);
-	Optional<Municipio> findByCodigoMunicipio(Integer codigoUf);
+	Optional<Municipio> findByCodigoMunicipio(Integer codigoMunicipio);
+	Boolean existsByCodigoMunicipio(Integer codigoMunicipio);
 }
