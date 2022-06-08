@@ -1,4 +1,4 @@
-package com.altbruno.desafiosquadra.dto;
+package com.altbruno.desafiosquadra.dto.get;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -7,12 +7,12 @@ public class MunicipioDtoGet {
 
 	@NotNull
 	private Integer codigoMunicipio;
+	@NotNull
+	private Integer codigoUF;
 	@NotBlank
 	private String nome;
 	@NotNull
 	private Integer status;
-	@NotNull
-	private Integer codigoUF;
 
 	public Integer getCodigoMunicipio() {
 		return codigoMunicipio;
@@ -20,6 +20,14 @@ public class MunicipioDtoGet {
 
 	public void setCodigoMunicipio(Integer codigoMunicipio) {
 		this.codigoMunicipio = codigoMunicipio;
+	}
+
+	public Integer getCodigoUF() {
+		return codigoUF;
+	}
+
+	public void setCodigoUF(Integer codigoUF) {
+		this.codigoUF = codigoUF;
 	}
 
 	public String getNome() {
@@ -36,13 +44,5 @@ public class MunicipioDtoGet {
 
 	public void setStatus(Integer status) {
 		this.status = status;
-	}
-
-	public Integer getCodigoUF() {
-		return codigoUF;
-	}
-
-	public void setCodigoUF(Integer codigoUF) {
-		this.codigoUF = codigoUF;
 	}
 }

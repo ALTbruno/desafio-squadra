@@ -1,9 +1,7 @@
 package com.altbruno.desafiosquadra.controller;
 
-import com.altbruno.desafiosquadra.dto.MunicipioDtoGet;
-import com.altbruno.desafiosquadra.dto.MunicipioDtoPost;
-import com.altbruno.desafiosquadra.model.Municipio;
-import com.altbruno.desafiosquadra.model.UF;
+import com.altbruno.desafiosquadra.dto.get.MunicipioDtoGet;
+import com.altbruno.desafiosquadra.dto.post.MunicipioDtoPost;
 import com.altbruno.desafiosquadra.service.MunicipioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
@@ -29,13 +27,19 @@ public class MunicipioController {
 	}
 
 	@GetMapping
-	ResponseEntity<List<MunicipioDtoGet>> listar(MunicipioDtoGet municipioDtoGet) {
+	ResponseEntity<?> listar(MunicipioDtoGet municipioDtoGet) {
 		ExampleMatcher matcher = ExampleMatcher
 										.matching()
 										.withIgnoreCase()
 										.withStringMatcher(ExampleMatcher.StringMatcher.EXACT);
 		Example<MunicipioDtoGet> example = Example.of(municipioDtoGet, matcher);
-		return ResponseEntity.status(HttpStatus.OK).body(municipioService.listar(example));
+
+		List<MunicipioDtoGet> resultadoBusca = municipioService.listar(example);
+
+		if (municipioDtoGet.getCodigoMunicipio() != null  && resultadoBusca.size() > 0)
+			return ResponseEntity.status(HttpStatus.OK).body(resultadoBusca.get(0));
+
+		return ResponseEntity.status(HttpStatus.OK).body(resultadoBusca);
 	}
 
 	@PutMapping

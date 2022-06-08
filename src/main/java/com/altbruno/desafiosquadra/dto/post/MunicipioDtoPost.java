@@ -1,16 +1,24 @@
-package com.altbruno.desafiosquadra.dto;
+package com.altbruno.desafiosquadra.dto.post;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 public class MunicipioDtoPost {
 
+	@NotNull
+	private Integer codigoUF;
 	@NotBlank
 	private String nome;
 	@NotNull
 	private Integer status;
-	@NotNull
-	private Integer codigoUF;
+
+	public Integer getCodigoUF() {
+		return codigoUF;
+	}
+
+	public void setCodigoUF(Integer codigoUF) {
+		this.codigoUF = codigoUF;
+	}
 
 	public String getNome() {
 		return nome;
@@ -26,13 +34,5 @@ public class MunicipioDtoPost {
 
 	public void setStatus(Integer status) {
 		this.status = status;
-	}
-
-	public Integer getCodigoUF() {
-		return codigoUF;
-	}
-
-	public void setCodigoUF(Integer codigoUF) {
-		this.codigoUF = codigoUF;
 	}
 }

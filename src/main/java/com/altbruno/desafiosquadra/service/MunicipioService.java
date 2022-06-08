@@ -1,7 +1,7 @@
 package com.altbruno.desafiosquadra.service;
 
-import com.altbruno.desafiosquadra.dto.MunicipioDtoGet;
-import com.altbruno.desafiosquadra.dto.MunicipioDtoPost;
+import com.altbruno.desafiosquadra.dto.get.MunicipioDtoGet;
+import com.altbruno.desafiosquadra.dto.post.MunicipioDtoPost;
 import com.altbruno.desafiosquadra.exception.NegocioException;
 import com.altbruno.desafiosquadra.model.Municipio;
 import com.altbruno.desafiosquadra.model.Status;
@@ -26,29 +26,11 @@ public class MunicipioService {
 	@Autowired
 	private UFRepository ufRepository;
 
-	public UF buscarPorCodigoUF(Integer codigoUF) {
-		return ufRepository.findByCodigoUF(codigoUF).orElseThrow(
-				() -> new EntityNotFoundException("Código UF não encontrado: " + codigoUF));
-	}
-
-	public Municipio buscarPorCodigoMunicipio(Integer codigoMunicipio) {
-		return municipioRepository.findByCodigoMunicipio(codigoMunicipio).orElseThrow(
-				() -> new EntityNotFoundException("Código Município não encontrado: " + codigoMunicipio));
-	}
-
-	public void validaNomePorUF(String nome, UF uf) {
-		if (municipioRepository.existsByNomeAndUf(nome, uf)) throw new NegocioException(String.format("Já existe um município cadastrado com o nome %s e codigoUF %s. Você não pode cadastrar dois municípios com o mesmo nome para o mesmo Código de UF.", nome, uf.getCodigoUF()));
-	}
-
-	public void validaStatus(Integer status) {
-		if (status != 1 && status != 2) throw new NegocioException("Status inválido. O status deve ser 1 ou 2");
-	}
-
 	public List<MunicipioDtoGet> cadastrar(MunicipioDtoPost municipioDtoPost) {
 
+		UF uf = buscarPorCodigoUF(municipioDtoPost.getCodigoUF());
 		String nome = municipioDtoPost.getNome().toUpperCase();
 		Integer status = municipioDtoPost.getStatus();
-		UF uf = buscarPorCodigoUF(municipioDtoPost.getCodigoUF());
 
 		validaStatus(status);
 		validaNomePorUF(nome, uf);
@@ -89,7 +71,8 @@ public class MunicipioService {
 		Integer codigoUF = municipioDtoGet.getCodigoUF();
 		UF uf = buscarPorCodigoUF(codigoUF);
 
-		if (!nome.equalsIgnoreCase(municipioJaCadastradoNoBanco.getNome()) || !codigoUF.equals(municipioJaCadastradoNoBanco.getUf().getCodigoUF())) validaNomePorUF(nome, uf);
+		if (!nome.equalsIgnoreCase(municipioJaCadastradoNoBanco.getNome()) || !codigoUF.equals(municipioJaCadastradoNoBanco.getUf().getCodigoUF()))
+			validaNomePorUF(nome, uf);
 
 		municipioJaCadastradoNoBanco.setNome(nome);
 		municipioJaCadastradoNoBanco.setStatus(status);
@@ -123,4 +106,23 @@ public class MunicipioService {
 					return municipioDtoGet;
 				}).collect(Collectors.toList());
 	}
+
+	public UF buscarPorCodigoUF(Integer codigoUF) {
+		return ufRepository.findByCodigoUF(codigoUF).orElseThrow(
+				() -> new EntityNotFoundException("Código UF não encontrado: " + codigoUF));
+	}
+
+	public Municipio buscarPorCodigoMunicipio(Integer codigoMunicipio) {
+		return municipioRepository.findByCodigoMunicipio(codigoMunicipio).orElseThrow(
+				() -> new EntityNotFoundException("Código Município não encontrado: " + codigoMunicipio));
+	}
+
+	public void validaNomePorUF(String nome, UF uf) {
+		if (municipioRepository.existsByNomeAndUf(nome, uf)) throw new NegocioException(String.format("Já existe um município cadastrado com o nome %s e codigoUF %s. Você não pode cadastrar dois municípios com o mesmo nome para o mesmo Código de UF.", nome, uf.getCodigoUF()));
+	}
+
+	public void validaStatus(Integer status) {
+		if (status != 1 && status != 2) throw new NegocioException("Status inválido. O status deve ser 1 ou 2");
+	}
+
 }
