@@ -3,7 +3,7 @@ package com.altbruno.desafiosquadra.dto.post;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-public class UF {
+public class UFDtoPost {
 
 	@NotBlank
 	private String nome;

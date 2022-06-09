@@ -1,5 +1,6 @@
 package com.altbruno.desafiosquadra.service;
 
+import com.altbruno.desafiosquadra.dto.post.UFDtoPost;
 import com.altbruno.desafiosquadra.exception.NegocioException;
 import com.altbruno.desafiosquadra.model.Status;
 import com.altbruno.desafiosquadra.model.UF;
@@ -18,7 +19,7 @@ public class UFService {
 	@Autowired
 	private UFRepository ufRepository;
 
-	public List<UF> salvar(com.altbruno.desafiosquadra.dto.post.UF ufDTO){
+	public List<UF> salvar(UFDtoPost ufDTO){
 		String nome = ufDTO.getNome().toUpperCase();
 		String sigla = ufDTO.getSigla().toUpperCase();
 		Integer status = ufDTO.getStatus();

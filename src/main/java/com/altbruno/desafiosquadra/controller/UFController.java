@@ -1,5 +1,6 @@
 package com.altbruno.desafiosquadra.controller;
 
+import com.altbruno.desafiosquadra.dto.post.UFDtoPost;
 import com.altbruno.desafiosquadra.model.UF;
 import com.altbruno.desafiosquadra.service.UFService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ public class UFController {
 	private UFService ufService;
 
 	@PostMapping
-	public ResponseEntity<List<UF>> salvarUF(@Valid @RequestBody com.altbruno.desafiosquadra.dto.post.UF ufDTO) {
+	public ResponseEntity<List<UF>> salvarUF(@Valid @RequestBody UFDtoPost ufDTO) {
 		return ResponseEntity.status(HttpStatus.OK).body(ufService.salvar(ufDTO));
 	}
 
