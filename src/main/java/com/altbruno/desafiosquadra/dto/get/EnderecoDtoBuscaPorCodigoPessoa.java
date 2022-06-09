@@ -1,4 +1,4 @@
-package com.altbruno.desafiosquadra.dto;
+package com.altbruno.desafiosquadra.dto.get;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -25,7 +25,7 @@ public class EnderecoDtoBuscaPorCodigoPessoa {
 	@NotBlank
 	private String cep;
 
-	private BairroDtoBuscaPorCodigoPessoa bairroDtoBuscaPorCodigoPessoa;
+	private BairroDtoBuscaPorCodigoPessoa bairro;
 
 	public Integer getCodigoEndereco() {
 		return codigoEndereco;
@@ -83,11 +83,11 @@ public class EnderecoDtoBuscaPorCodigoPessoa {
 		this.cep = cep;
 	}
 
-	public BairroDtoBuscaPorCodigoPessoa getBairroDtoBuscaPorCodigoPessoa() {
-		return bairroDtoBuscaPorCodigoPessoa;
+	public BairroDtoBuscaPorCodigoPessoa getBairro() {
+		return bairro;
 	}
 
-	public void setBairroDtoBuscaPorCodigoPessoa(BairroDtoBuscaPorCodigoPessoa bairroDtoBuscaPorCodigoPessoa) {
-		this.bairroDtoBuscaPorCodigoPessoa = bairroDtoBuscaPorCodigoPessoa;
+	public void setBairro(BairroDtoBuscaPorCodigoPessoa bairro) {
+		this.bairro = bairro;
 	}
 }

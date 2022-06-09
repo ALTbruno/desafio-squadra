@@ -1,13 +1,10 @@
-package com.altbruno.desafiosquadra.dto;
+package com.altbruno.desafiosquadra.dto.post;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
-public class PessoaDtoResumido {
-
-	@NotNull
-	private Integer codigoPessoa;
+public class PessoaDtoPost {
 
 	@NotBlank
 	private String nome;
@@ -25,15 +22,10 @@ public class PessoaDtoResumido {
 	private String senha;
 
 	@NotNull
+	private List<EnderecoDtoPost> enderecos;
+
+	@NotNull
 	private Integer status;
-
-	public Integer getCodigoPessoa() {
-		return codigoPessoa;
-	}
-
-	public void setCodigoPessoa(Integer codigoPessoa) {
-		this.codigoPessoa = codigoPessoa;
-	}
 
 	public String getNome() {
 		return nome;
@@ -75,6 +67,14 @@ public class PessoaDtoResumido {
 		this.senha = senha;
 	}
 
+	public List<EnderecoDtoPost> getEnderecos() {
+		return enderecos;
+	}
+
+	public void setEnderecos(List<EnderecoDtoPost> enderecos) {
+		this.enderecos = enderecos;
+	}
+
 	public Integer getStatus() {
 		return status;
 	}
@@ -82,4 +82,5 @@ public class PessoaDtoResumido {
 	public void setStatus(Integer status) {
 		this.status = status;
 	}
+
 }

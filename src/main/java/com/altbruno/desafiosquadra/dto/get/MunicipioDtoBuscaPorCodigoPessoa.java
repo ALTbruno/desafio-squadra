@@ -1,4 +1,4 @@
-package com.altbruno.desafiosquadra.dto;
+package com.altbruno.desafiosquadra.dto.get;
 
 import com.altbruno.desafiosquadra.model.UF;
 

@@ -12,4 +12,5 @@ public interface PessoaRepository extends JpaRepository<Pessoa, Integer> {
 	List<Pessoa> findAllByOrderByCodigoPessoaDesc();
 	Optional<Pessoa> findByCodigoPessoa(Integer codigoPessoa);
 	Boolean existsByLogin(String login);
+	Boolean existsByCodigoPessoa(Integer codigoPessoa);
 }

@@ -7,7 +7,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "TB_PESSOA")
-public class Pessoa {
+public class Pessoa implements Comparable<Pessoa>{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence_id_pessoa")
@@ -101,5 +101,10 @@ public class Pessoa {
 
 	public void setEnderecos(List<Endereco> enderecos) {
 		this.enderecos = enderecos;
+	}
+
+	@Override
+	public int compareTo(Pessoa outraPessoa) {
+		return outraPessoa.getCodigoPessoa().compareTo(this.codigoPessoa);
 	}
 }

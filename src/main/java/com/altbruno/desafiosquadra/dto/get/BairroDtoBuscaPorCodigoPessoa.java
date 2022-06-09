@@ -1,4 +1,4 @@
-package com.altbruno.desafiosquadra.dto;
+package com.altbruno.desafiosquadra.dto.get;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -17,7 +17,7 @@ public class BairroDtoBuscaPorCodigoPessoa {
 	@NotNull
 	private Integer status;
 
-	private MunicipioDtoBuscaPorCodigoPessoa municipioDtoBuscaPorCodigoPessoa;
+	private MunicipioDtoBuscaPorCodigoPessoa municipio;
 
 	public Integer getCodigoBairro() {
 		return codigoBairro;
@@ -51,11 +51,11 @@ public class BairroDtoBuscaPorCodigoPessoa {
 		this.status = status;
 	}
 
-	public MunicipioDtoBuscaPorCodigoPessoa getMunicipioDtoBuscaPorCodigoPessoa() {
-		return municipioDtoBuscaPorCodigoPessoa;
+	public MunicipioDtoBuscaPorCodigoPessoa getMunicipio() {
+		return municipio;
 	}
 
-	public void setMunicipioDtoBuscaPorCodigoPessoa(MunicipioDtoBuscaPorCodigoPessoa municipioDtoBuscaPorCodigoPessoa) {
-		this.municipioDtoBuscaPorCodigoPessoa = municipioDtoBuscaPorCodigoPessoa;
+	public void setMunicipio(MunicipioDtoBuscaPorCodigoPessoa municipio) {
+		this.municipio = municipio;
 	}
 }

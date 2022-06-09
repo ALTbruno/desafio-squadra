@@ -1,12 +1,18 @@
-package com.altbruno.desafiosquadra.dto;
+package com.altbruno.desafiosquadra.dto.put;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-public class EnderecoDtoPost {
+public class EnderecoDtoPut {
+
+	@NotNull
+	private Integer codigoEndereco;
 
 	@NotNull
 	private Integer codigoBairro;
+
+	@NotNull
+	private Integer codigoPessoa;
 
 	@NotBlank
 	private String nomeRua;
@@ -19,12 +25,28 @@ public class EnderecoDtoPost {
 	@NotBlank
 	private String cep;
 
+	public Integer getCodigoEndereco() {
+		return codigoEndereco;
+	}
+
+	public void setCodigoEndereco(Integer codigoEndereco) {
+		this.codigoEndereco = codigoEndereco;
+	}
+
 	public Integer getCodigoBairro() {
 		return codigoBairro;
 	}
 
 	public void setCodigoBairro(Integer codigoBairro) {
 		this.codigoBairro = codigoBairro;
+	}
+
+	public Integer getCodigoPessoa() {
+		return codigoPessoa;
+	}
+
+	public void setCodigoPessoa(Integer codigoPessoa) {
+		this.codigoPessoa = codigoPessoa;
 	}
 
 	public String getNomeRua() {

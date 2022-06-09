@@ -1,16 +1,26 @@
 package com.altbruno.desafiosquadra.service;
 
-import com.altbruno.desafiosquadra.dto.*;
+import com.altbruno.desafiosquadra.dto.get.BairroDtoBuscaPorCodigoPessoa;
+import com.altbruno.desafiosquadra.dto.get.EnderecoDtoBuscaPorCodigoPessoa;
+import com.altbruno.desafiosquadra.dto.get.MunicipioDtoBuscaPorCodigoPessoa;
+import com.altbruno.desafiosquadra.dto.get.PessoaDtoBuscaPorCodigoPessoa;
+import com.altbruno.desafiosquadra.dto.post.EnderecoDtoPost;
+import com.altbruno.desafiosquadra.dto.post.PessoaDtoPost;
+import com.altbruno.desafiosquadra.dto.post.PessoaDtoResumido;
+import com.altbruno.desafiosquadra.dto.put.EnderecoDtoPut;
+import com.altbruno.desafiosquadra.dto.put.PessoaDtoPut;
 import com.altbruno.desafiosquadra.exception.NegocioException;
 import com.altbruno.desafiosquadra.model.*;
 import com.altbruno.desafiosquadra.repository.BairroRepository;
 import com.altbruno.desafiosquadra.repository.EnderecoRepository;
 import com.altbruno.desafiosquadra.repository.PessoaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -51,6 +61,12 @@ public class PessoaService {
 
 	public List<PessoaDtoResumido> listarPessoasResumido() {
 		List<Pessoa> pessoas = pessoaRepository.findAllByOrderByCodigoPessoaDesc();
+		return converterEmPessoaDtoResumido(pessoas);
+	}
+
+	public List<PessoaDtoResumido> listarPessoasResumido(Example<Pessoa> example) {
+		List<Pessoa> pessoas = pessoaRepository.findAll(example);
+		Collections.sort(pessoas);
 		return converterEmPessoaDtoResumido(pessoas);
 	}
 
@@ -104,11 +120,6 @@ public class PessoaService {
 		pessoa.setStatus(Status.INATIVO.getId());
 		pessoaRepository.save(pessoa);
 		return listarPessoasResumido();
-	}
-
-	public Pessoa buscarPorCodigoPessoa(Integer codigoPessoa) {
-		return pessoaRepository.findByCodigoPessoa(codigoPessoa).orElseThrow(
-				() -> new EntityNotFoundException("Código Pessoa não encontrado: " + codigoPessoa));
 	}
 
 	public List<Endereco> converterDtoPostEmEnderecos(List<EnderecoDtoPost> enderecosDtoPost, Pessoa pessoa){
@@ -178,7 +189,7 @@ public class PessoaService {
 					enderecoDto.setNumero(numero);
 					enderecoDto.setComplemento(complemento);
 					enderecoDto.setCep(cep);
-					enderecoDto.setBairroDtoBuscaPorCodigoPessoa(converterBairroEmDto(endereco.getBairro()));
+					enderecoDto.setBairro(converterBairroEmDto(endereco.getBairro()));
 					return enderecoDto;
 				}).collect(Collectors.toList());
 	}
@@ -188,8 +199,8 @@ public class PessoaService {
 		bairroDto.setCodigoBairro(bairro.getCodigoBairro());
 		bairroDto.setCodigoMunicipio(bairro.getMunicipio().getCodigoMunicipio());
 		bairroDto.setNome(bairro.getNome());
-		bairroDto.setStatus(bairroDto.getStatus());
-		bairroDto.setMunicipioDtoBuscaPorCodigoPessoa(converterMunicipioEmDto(bairro.getMunicipio()));
+		bairroDto.setStatus(bairro.getStatus());
+		bairroDto.setMunicipio(converterMunicipioEmDto(bairro.getMunicipio()));
 		return bairroDto;
 	}
 
@@ -225,6 +236,15 @@ public class PessoaService {
 					pessoaDtoResumido.setStatus(status);
 					return pessoaDtoResumido;
 				}).collect(Collectors.toList());
+	}
+
+	public Pessoa buscarPorCodigoPessoa(Integer codigoPessoa) {
+		return pessoaRepository.findByCodigoPessoa(codigoPessoa).orElseThrow(
+				() -> new EntityNotFoundException("Código Pessoa não encontrado: " + codigoPessoa));
+	}
+
+	public Boolean codigoPessoaValido (Integer codigoPessoa) {
+		return pessoaRepository.existsByCodigoPessoa(codigoPessoa);
 	}
 
 	public Bairro buscarPorCodigoBairro(Integer codigoBairro) {
